@@ -6,6 +6,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.expected_conditions import staleness_of
 from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 
 import json
 
@@ -44,19 +45,18 @@ def main():
 def update_cookies(login_url,email,password,needed_url):
     
     options = webdriver.ChromeOptions()
-    options.headless = True
-    options.add_experimental_option("excludeSwitches", ["enable-logging"])
-    ser = Service("chromedriver.exe")
+
+    ser = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=ser)
     driver.get(login_url)
 
     try:
-        WebDriverWait(driver, 1).until(EC.presence_of_element_located((By.ID,"YAMAN")))
+        WebDriverWait(driver, 1.5).until(EC.presence_of_element_located((By.ID,"YAMAN")))
     except:
         WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.ID, "loginEmail"))).send_keys(email)
         WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.ID, "loginPassword"))).send_keys(password)
         WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.ID, "login-btn"))).click()
-        WebDriverWait(driver,5).until(EC.visibility_of_element_located((By.CLASS_NAME,"calendarToggleCell")))
+        WebDriverWait(driver,5).until(EC.visibility_of_element_located((By.CLASS_NAME,"portlet-title")))
         driver.get(needed_url)
 
 
