@@ -4,6 +4,7 @@ a xml scraper for myfxbook that automatically downloads the requested calendar x
 
 Make sure you've set the config.json correctly
 
+
 {
    "email": "yourmail@mail.com",
    "password": "strongestPassword123",
